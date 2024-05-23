@@ -1,0 +1,17 @@
+Import('*')
+
+SimObject('MyObject.py', sim_objects=['MyObject'])
+DebugFlag('MyExample')
+Source('my_object.cc')
+
+
+
+
+SimObject('VectorOperations.py', sim_objects=['VectorOperations'])
+
+Source('vector_operations.cc')
+
+DebugFlag('VECTOR')
+DebugFlag('RESULTCROSS')
+DebugFlag('NORMALIZE')
+DebugFlag('RESULTSUB')
