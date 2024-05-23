@@ -72,4 +72,12 @@ Create a `SConscript` file to register the SimObject and the C++ file. This file
 ### Step 4: (Re)-build gem5
 
 To compile and link the new files, recompile gem5 with the following command:
-scons build/X86/gem5.opt
+`scons build/X86/gem5.opt`
+
+### Step 5: Step 5: Create the Configuration Script
+
+Create a configuration script to use the new SimObject. This script should instantiate the SimObject and run the simulation. All gem5 instances require a Root object. The script also takes user input to run the SimObject with specified inputs, calls instantiate on the m5 module, and runs the simulation.
+
+### Running the Simulation
+To run the simulation, use the following command:
+`build/X86/gem5.opt --debug-flags=NORMALIZE,RESULTCROSS,RESULTSUB,VECTOR configs/assignment2/run.py`
