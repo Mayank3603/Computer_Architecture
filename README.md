@@ -40,4 +40,36 @@ To understand the impact of L2 cache configurations on cache miss rates, we perf
    - Increasing associativity to 4 or 8 reduces conflict misses as more cache lines per set can accommodate more memory blocks without evictions. This reduction in miss rates is evident from the simulations.
    - Each increase in associativity yields diminishing returns in conflict miss reduction because the cache already efficiently accommodates diverse memory blocks with existing associativity levels.
 
+# Assignment 2
 
+# VectorOperations SimObject in gem5
+
+This repository contains the implementation of a custom `VectorOperations` SimObject in gem5, designed to perform vector operations with specified latencies. The implementation involves creating a Python class for the SimObject, defining its parameters, and implementing the SimObject in C++. The steps to build and use this SimObject are outlined below.
+
+## Steps to Create and Use the VectorOperations SimObject
+
+### Step 1: Create Python Class for SimObject
+
+To create a SimObject, first, create a Python class. This class should be placed in the `src` folder of the gem5 directory.
+
+**VectorOperations.py:** This file will contain the Python class for the SimObject. The class includes parameters that can take input from the user, such as the two vectors (3x1) and the wait times for each event. Key attributes to define include:
+- `type`: The type is the C++ class wrapped with this Python SimObject.
+- `cxx_header`: The header file containing the declaration of the class used as the type parameter.
+- `cxx_class`: Specifies that the newly created SimObject is declared within the gem5 namespace.
+
+### Step 2: Implement the SimObject in C++
+
+**vector_operations.hh:** This file contains all the declarations. It includes necessary headers to use the debug flags declared in `SConscript` and wraps all header files in `#ifndef /#endif` to prevent circular includes. The SimObject should be declared within the gem5 namespace.
+
+Declare all private variables for the SimObject. For `VectorOperations`, the parameter type's name is `VectorOperationsParams`. All event declarations with event wrappers and cycle variables should be declared in the private section of the class. In the public section, declare the `startup()` function to schedule the events.
+
+**vector_operations.cc:** This file contains the body of the events and all computations, along with `DPRINTF` statements used to output results with corresponding flags. The `startup()` function is where SimObjects schedule internal events based on user input. Events such as `VectorCrossProduct`, `NormalizeVector`, and `VectorSubtraction` are defined here, each using `DPRINTF` statements for debugging.
+
+### Step 3: Register the SimObject and C++ File
+
+Create a `SConscript` file to register the SimObject and the C++ file. This file includes functions to declare the SimObject and the `.cc` file. It also mentions the debug flags created for the assignment.
+
+### Step 4: (Re)-build gem5
+
+To compile and link the new files, recompile gem5 with the following command:
+scons build/X86/gem5.opt
